@@ -29,10 +29,15 @@
   </style>
 </head>
 <body class="gradient-background">
-  <div class="flex items-center justify-center h-screen">
+  <div id="mainContainer" class="flex items-center justify-center h-screen">
     <div class="flex flex-col items-center p-4">
-      <img id="imageDisplay" src="./images/image1.gif" alt="Cute kitten with flowers" class="rounded-md h-[300px]" style="object-fit: cover;" />
-      <h2 id="valentineQuestion" class="text-4xl font-bold italic text-[#bd1e59] my-4">Will you be my Valentine?</h2>
+    <div class="flex flex-row items-center p-4">
+      <img id="imageDisplay1" src="./images/lily-me1.jpeg" alt="Cute kitten with flowers" class="rounded-md h-[300px]" style="object-fit: cover; display: none;" />
+      <img id="imageDisplay" src="./images/forgive_me.gif" alt="Cute kitten with flowers" class="rounded-md h-[300px]" style="object-fit: cover" />
+      <img id="imageDisplay2" src="./images/lily-me-3.jpeg" alt="Cute kitten with flowers" class="rounded-md h-[300px]" style="object-fit: cover; display: none;" />
+      
+      </div>
+      <h2 id="valentineQuestion" class="text-3xl font-bold italic text-[#bd1e59] my-4">Sorry, Lily. Can you find it in your heart to forgive me and give us another chance? 🥺</h2>
       <div class="flex gap-4 pt-[20px] items-center" id="responseButtons">
         <button id="yesButton"
           class="bounce2 inline-flex items-center justify-center whitespace-nowrap rounded-md text-[20px] font-medium disabled:pointer-events-none disabled:opacity-50 hover:bg-green-400 min-h-12 min-w-[75px] px-4 py-2 bg-green-500 text-white transition">
@@ -51,25 +56,37 @@
     const yesButton = document.getElementById('yesButton');
     const noButton = document.getElementById('noButton');
     const imageDisplay = document.getElementById('imageDisplay');
+    const imageDisplay1 = document.getElementById('imageDisplay1');
+    const imageDisplay2 = document.getElementById('imageDisplay2');
     const valentineQuestion = document.getElementById('valentineQuestion');
     const responseButtons = document.getElementById('responseButtons');
+    const main = document.getElementById('mainContainer');
+    const afterDecisionBody = document.getElementById('afterDecisionBody');
+    if(sessionStorage.getItem("hasDecisionMade") === "true"){
+        responseButtons.style.display = 'none';
+        imageDisplay.src = './images/decision_made.gif';
+        valentineQuestion.textContent = "Babe, you already forgave me - no take backs! Unforgiving is not an option. Too late! 😎😂 ";
+    }
   
     let noClickCount = 0;
     let buttonHeight = 48; // Starting height in pixels
     let buttonWidth = 80;
     let fontSize = 20; // Starting font size in pixels
     const imagePaths = [
-      "./images/image1.gif",
+      "./images/forgive_me.gif",
       "./images/image2.gif",
       "./images/image3.gif",
-      "./images/image4.gif",
-      "./images/image5.gif",
-      "./images/image6.gif",
-      "./images/image7.gif"
+      "./images/jay_and_gloria.gif",
+      "./images/mahindroo_nishi.gif",
+      "./images/mahindroo_crying.gif",
+      "./images/lily.gif",
+      "./images/phil_dulphy.gif",
+      "./images/resist-face.gif",
+      "./images/image7.gif",
     ];
   
     noButton.addEventListener('click', function() {
-      if (noClickCount < 5) {
+      if (noClickCount < imagePaths.length - 2) {
         noClickCount++;
         imageDisplay.src = imagePaths[noClickCount];
         buttonHeight += 35; // Increase height by 5px on each click
@@ -78,17 +95,38 @@
         yesButton.style.height = `${buttonHeight}px`; // Update button height
         yesButton.style.width = `${buttonWidth}px`;
         yesButton.style.fontSize = `${fontSize}px`; // Update font size
-        if (noClickCount < 6) {
-          noButton.textContent = ["No", "Are you sure?", "Pookie please", "Don't do this to me :(", "You're breaking my heart", "I'm gonna cry..."][noClickCount];
+        if (noClickCount < imagePaths.length - 1) {
+          noButton.textContent = ["No", 
+          "Are you sure? 🥺", 
+          "Baby pleaseeee 😢", 
+          "Jay and Gloria would approve! 😏",
+          "Even Mahindroo and Nishi can't wait for you to say yes! 🥹",
+          "Dekho rula dia na bechare ko 😏",
+          "Come on, Lily, don’t be like this Lily 😒",
+          "Not even Phil Dunphy would say no! 😅",
+          "You know you can’t resist this face 😎"
+          ][noClickCount];
         }
       }
-    });
+      else {
+      yesButton.style.position = "absolute";
+      yesButton.style.top = "0";
+      yesButton.style.left = "0";
+      yesButton.style.width = "100vw";
+      yesButton.style.height = "100vh";
+      button.style.cursor = "pointer";
+      }
+    }
+    );
   
     yesButton.addEventListener('click', () => {
       imageDisplay.src = './images/image7.gif'; // Change to image7.gif
       valentineQuestion.textContent = "Yayyy!! :3"; // Change the question text
       responseButtons.style.display = 'none'; // Hide both buttons
+      imageDisplay1.style.display = 'block'; // Hide both buttons
+      imageDisplay2.style.display = 'block'; // Hide both buttons
       confetti(); // Trigger confetti animation
+      sessionStorage.setItem("hasDecisionMade", true);
     });
   </script>  
 </body>
